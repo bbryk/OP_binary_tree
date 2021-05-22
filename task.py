@@ -8,8 +8,6 @@ from bstnode import BSTNode
 from linkedstack import LinkedStack
 from linkedqueue import LinkedQueue
 from math import log
-import time
-from random import sample, shuffle
 
 
 class LinkedBST(AbstractCollection):
@@ -264,20 +262,13 @@ class LinkedBST(AbstractCollection):
             return True
         return False
 
-    def range_find(self, low, high):
+    def rangeFind(self, low, high):
         '''
         Returns a list of the items in the tree, where low <= item <= high."""
         :param low:
         :param high:
         :return:
         '''
-        lst = list(self.inorder())
-        top = self.successor(high)
-        bottom = self.predecessor(low)
-        top_index = lst.index(top)
-        bottom_index = lst.index(bottom)
-        lst = lst[bottom_index + 1:top_index]
-        return lst
 
     def rebalance(self):
         '''
@@ -309,11 +300,12 @@ class LinkedBST(AbstractCollection):
 
         dict_tree = rebalance1(d, sorted_tree)
         keys = list(dict_tree.keys())[:-1]
-        # print(keys)
+        #print(keys)
         for key in keys:
             for el in dict_tree[key]:
                 array.append(el)
         self.clear()
+
 
         array.sort()
 
@@ -323,6 +315,20 @@ class LinkedBST(AbstractCollection):
         for key in keys:
             for el in dict_tree[key]:
                 self.add(el)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def successor(self, item):
         """
@@ -341,6 +347,7 @@ class LinkedBST(AbstractCollection):
             else:
                 return el
 
+
     def predecessor(self, item):
         """
         Returns the largest item that is smaller than
@@ -357,7 +364,6 @@ class LinkedBST(AbstractCollection):
                 continue
             else:
                 return el
-
     def demo_bst(self, path):
         """
         Demonstration of efficiency binary search tree for the search tasks.
@@ -366,62 +372,18 @@ class LinkedBST(AbstractCollection):
         :return:
         :rtype:
         """
-        with open(path, 'r') as dictionary:
-            words = dictionary.readlines()
-            new_words = []
-            for line in words:
-                new_words.append(line.strip())
-
-        words = new_words
-        random_words = sample(words, 10000)
-
-
-        start = time.time()
-        for word in random_words:
-            words.index(word)
-        stop = time.time()
-        list_time = stop - start
-
-        tree = LinkedBST(words[:1000])
-        start = time.time()
-        for word in random_words:
-            tree.find(word)
-        stop = time.time()
-        sorted_time = stop -start
-
-        shuffle(words)
-        tree = LinkedBST(words[:1000])
-        start = time.time()
-        for word in random_words:
-            tree.find(word)
-        stop = time.time()
-        random_time =stop -start
-
-        tree.rebalance()
-        start = time.time()
-        for word in random_words:
-            tree.find(word)
-        stop = time.time()
-        balanced_time = stop - start
-
-        print(f"""
-List : {list_time}
-Sorted: {sorted_time}
-Random: {random_time}
-Balanced; {balanced_time}""")
 
 def dict_help(dictionary):
     for key in dictionary.keys():
-        dictionary[key] = dictionary[key][:len(dictionary[key]) // 2]
+        dictionary[key] = dictionary[key][:len(dictionary[key])//2]
+
 
 
 if __name__ == '__main__':
-    # bst = LinkedBST()
-    # for el in [3, -1, 5, 2, 6, -3, 4]:  # [-3,-1,2,3,4,5,6]
-    #     bst.add(el)
-    # print(bst)
-    # print(list(bst.range_find(-1,4)))
-    #
-    # print(bst.rebalance())
-    t = LinkedBST()
-    t.demo_bst('words.txt')
+    bst = LinkedBST()
+    for el in [3, -1, 5, 2, 6, -3, 4]:  # [-3,-1,2,3,4,5,6]
+        bst.add(el)
+    print(bst)
+    print(bst.predecessor(-1))
+
+    print(bst.rebalance())
